@@ -2,7 +2,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		private Node<Key> root;
 		
 		public RedBlackTree(Key data) {
-			root = new Node(data, true);
+			root = new Node<>(data, true);
 		}
 		
 
@@ -43,8 +43,15 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		
 		// place a new node in the RB tree with data the parameter and color it red. 
 		public void addNode(Key data){  	//this < that  <0.  this > that  >0
-		 //	fill
-			
+			Node<Key> cur = root;
+			while(true) {
+				if(cur.leftChild == null) {
+					cur.leftChild = new Node<>(data);
+				} else {
+					cur = cur.leftChild;
+					return;
+				}
+			}
 		}	
 
 		public void insert(Key data){
@@ -102,6 +109,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 
 		public void preOrderVisit(Visitor<Key> v) {
+			System.out.println(v.toString());
 		   	preOrderVisit(root, v);
 		}
 		 

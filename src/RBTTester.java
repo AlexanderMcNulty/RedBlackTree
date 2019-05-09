@@ -5,6 +5,7 @@ import org.junit.Test;
 
 
 public class RBTTester {
+	
 	@Test
     //Test the Red Black Tree
 	public void testGeneric() {
@@ -35,13 +36,44 @@ public class RBTTester {
             
     }
     
+	@Test
+    //Test the Red Black Tree
+	public void testStrings() {
+		RedBlackTree<String> rbt = new RedBlackTree<>("First");
+        rbt.insert("A");
+        rbt.insert("B");
+        rbt.insert("C");
+        rbt.insert("D");
+        rbt.insert("E");
+        rbt.insert("F");
+        rbt.insert("G");
+        rbt.insert("H");
+        rbt.insert("I");
+        rbt.insert("J");
+        assertEquals("DBACFEHGIJ", makeString(rbt));
+        String str=     "Color: 1, Key:D Parent: \n"+
+                        "Color: 1, Key:B Parent: D\n"+
+                        "Color: 1, Key:A Parent: B\n"+
+                        "Color: 1, Key:C Parent: B\n"+
+                        "Color: 1, Key:F Parent: D\n"+
+                        "Color: 1, Key:E Parent: F\n"+
+                        "Color: 0, Key:H Parent: F\n"+
+                        "Color: 1, Key:G Parent: H\n"+
+                        "Color: 1, Key:I Parent: H\n"+
+                        "Color: 0, Key:J Parent: I\n";
+		assertEquals(str, makeStringDetails(rbt));
+            
+    }
+    
+	
+	
     //add tester for spell checker
     
     public static String makeString(RedBlackTree t)
     {
-       class MyVisitor implements RedBlackTree.Visitor {
+       class MyVisitor implements Visitor<String> {
           String result = "";
-          public void visit(RedBlackTree.Node n)
+          public void visit(Node n)
           {
              result = result + n.key;
           }
@@ -51,11 +83,12 @@ public class RBTTester {
        return v.result;
     }
 
+    // color, parents key, this key
     public static String makeStringDetails(RedBlackTree t) {
     	{
-    	       class MyVisitor implements RedBlackTree.Visitor {
+    	       class MyVisitor implements Visitor<String> {
     	          String result = "";
-    	          public void visit(RedBlackTree.Node n)
+    	          public void visit(Node n)
     	          {
     	        	  if(!(n.key).equals(""))
     	        		  result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
@@ -67,6 +100,7 @@ public class RBTTester {
     	       return v.result;
     	 }
     }
+    
   // add this in your class  
   //  public static interface Visitor
   //  {
