@@ -15,9 +15,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			  }
 			  return false;
 		  }
-		
 
-		
 		public void visit(Node<Key> n){
 			System.out.println(n.key);
 		}
@@ -37,22 +35,33 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 		
 		
-		
-		
-		
-		
 		// place a new node in the RB tree with data the parameter and color it red. 
 		public void addNode(Key data){  	//this < that  <0.  this > that  >0
 			Node<Key> cur = root;
+			
 			while(true) {
-				if(cur.leftChild == null) {
-					cur.leftChild = new Node<>(data);
+				if(data.compareTo(cur.key) > 0) {
+					System.out.println(data.compareTo(cur.key));
+					if(cur.leftChild == null) {
+						cur.leftChild = new Node<>(data);
+						System.out.println("\n\n");
+						return;
+					} else {
+						cur = cur.leftChild;
+					}
 				} else {
-					cur = cur.leftChild;
-					return;
+					System.out.println(data.compareTo(cur.key));
+					if(cur.rightChild == null) {
+						cur.rightChild = new Node<>(data);
+						System.out.println("\n\n");
+						return;
+					} else {
+						cur = cur.rightChild;
+					}
 				}
 			}
-		}	
+		}
+			
 
 		public void insert(Key data){
 			addNode(data);	
@@ -109,12 +118,14 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 
 		public void preOrderVisit(Visitor<Key> v) {
-			System.out.println(v.toString());
+			
 		   	preOrderVisit(root, v);
+
 		}
 		 
 		 
 		private void preOrderVisit(Node<Key> n, Visitor<Key> v) {
+
 		  	if (n == null) {
 		  		return;
 		  	}
@@ -122,5 +133,23 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		  	preOrderVisit(n.leftChild, v);
 		  	preOrderVisit(n.rightChild, v);
 		}	
+		
+		public void inOrderVisit(Visitor<Key> v) {
+			
+		   	inOrderVisit(root, v);
+
+		}
+		 
+		 
+		private void inOrderVisit(Node<Key> n, Visitor<Key> v) {
+
+		  	if (n == null) {
+		  		return;
+		  	}
+		  	inOrderVisit(n.leftChild, v);
+		  	v.visit(n);
+		  	inOrderVisit(n.rightChild, v);
+		}	
+		
 	}
 

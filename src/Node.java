@@ -34,4 +34,10 @@ public class Node<Key extends Comparable<Key>> { //changed to static
 		  }
 		  return false;
 	  }
+	  
+	  @Override
+	  public String toString() {
+		  return String.valueOf(key);
+	  }
+	  
 }

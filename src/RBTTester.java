@@ -6,6 +6,8 @@ import org.junit.Test;
 
 public class RBTTester {
 	
+	/*
+	
 	@Test
     //Test the Red Black Tree
 	public void testGeneric() {
@@ -21,7 +23,8 @@ public class RBTTester {
         rbt.insert(new Rectangle(1,1));
         rbt.insert(new Rectangle(1,1));
         rbt.insert(new Rectangle(1,1));
-        assertEquals("DBACFEHGIJ", makeString(rbt));
+        System.out.println(makeString(rbt));
+        System.out.println(makeStringDetails(rbt));
         String str=     "Color: 1, Key:D Parent: \n"+
                         "Color: 1, Key:B Parent: D\n"+
                         "Color: 1, Key:A Parent: B\n"+
@@ -50,6 +53,8 @@ public class RBTTester {
         rbt.insert("H");
         rbt.insert("I");
         rbt.insert("J");
+        System.out.println(makeString(rbt));
+        System.out.println(makeStringDetails(rbt));
         assertEquals("DBACFEHGIJ", makeString(rbt));
         String str=     "Color: 1, Key:D Parent: \n"+
                         "Color: 1, Key:B Parent: D\n"+
@@ -62,9 +67,26 @@ public class RBTTester {
                         "Color: 1, Key:I Parent: H\n"+
                         "Color: 0, Key:J Parent: I\n";
 		assertEquals(str, makeStringDetails(rbt));
-            
     }
+    */
     
+	
+			
+	@Test
+	public void manualTest() {
+		RedBlackTree<String> rbt = new RedBlackTree<>("A");
+        rbt.insert("B");
+        rbt.insert("C");
+        rbt.insert("D");
+        rbt.insert("E");
+        rbt.insert("F");
+        rbt.insert("G");
+        rbt.insert("H");
+        rbt.insert("I");
+        rbt.insert("J");
+        makeStringDetails(rbt);
+
+	}
 	
 	
     //add tester for spell checker
@@ -76,6 +98,7 @@ public class RBTTester {
           public void visit(Node n)
           {
              result = result + n.key;
+             System.out.println(n.key);
           }
        };
        MyVisitor v = new MyVisitor();
@@ -90,13 +113,18 @@ public class RBTTester {
     	          String result = "";
     	          public void visit(Node n)
     	          {
-    	        	  if(!(n.key).equals(""))
-    	        		  result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
-    	             
+    	        	  if(!(n.key).equals("")) {
+    	        		  System.out.println("Key: "+n.key);
+    	        		  //result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
+    	        	  }
     	          }
     	       };
     	       MyVisitor v = new MyVisitor();
     	       t.preOrderVisit(v);
+    	        System.out.println("\n\n\n\n");
+
+    	       t.inOrderVisit(v);
+    	       //t.preOrderVisit(v);
     	       return v.result;
     	 }
     }
