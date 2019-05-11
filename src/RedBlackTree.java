@@ -94,22 +94,13 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 		
 		public void rotateLeft(Node<Key> n){
-
 			
 			Node<Key> c = n.rightChild;
 
-			System.out.println(n.toString());
-			System.out.println(c.toString());
-			
-			if(n.parent != null) {
-				c.parent = n.parent;
-			} else {
-				c.parent = null;
-			}
+			c.parent = n.parent;	
 			n.parent = c;
 			n.rightChild = c.leftChild;
 			c.leftChild = n;
-			
 			if(n.equals(root)) {
 				root = c;
 			}
@@ -117,8 +108,19 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 		
 		public void rotateRight(Node<Key> n){
-			//
+			Node<Key> c = n.leftChild;
+
+			c.parent = n.parent;	
+			n.parent = c;
+			n.leftChild = c.rightChild;
+			c.rightChild = n;
+			if(n.equals(root)) {
+				root = c;
+			}
+
 		}
+
+		
 		
 		public void fixTree(Node<Key> current) {
 			//

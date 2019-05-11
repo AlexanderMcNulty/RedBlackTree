@@ -126,8 +126,12 @@ public class RBTTester {
     	       System.out.println("hi\n\n");
     	       t.rotateLeft(t.getRoot());
     	       printAll(t,v);
-    	       System.out.println("bad");
+    	       System.out.println("bad\n\n");
     	       t.rotateLeft(t.getRoot());
+    	       printAll(t,v);
+    	       System.out.println("bad\n\n");
+    	       t.rotateRight(t.getRoot());
+    	       t.rotateRight(t.getRoot());
     	       printAll(t,v);
     	       System.out.println("bad");
     	       return v.result;
