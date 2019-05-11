@@ -74,8 +74,9 @@ public class RBTTester {
 			
 	@Test
 	public void manualTest() {
-		RedBlackTree<String> rbt = new RedBlackTree<>("A");
-        rbt.insert("B");
+		RedBlackTree<String> rbt = new RedBlackTree<>("BB");
+		rbt.insert("B");
+		rbt.insert("A");
         rbt.insert("C");
         rbt.insert("D");
         rbt.insert("E");
@@ -120,39 +121,22 @@ public class RBTTester {
     	          }
     	       };
     	       MyVisitor v = new MyVisitor();
-    	       t.preOrderVisit(v);
-    	        System.out.println("\n\n\n\n");
-
-    	       t.inOrderVisit(v);
-    	       //t.preOrderVisit(v);
+    	       printAll(t,v);
+    	       System.out.println("hi");
+    	       t.rotateLeft(t.getRoot());
+    	       printAll(t,v);
+    	       System.out.println("bad");
     	       return v.result;
     	 }
     }
     
-  // add this in your class  
-  //  public static interface Visitor
-  //  {
-  //  	/**
-  //     This method is called at each node.
-  //     @param n the visited node
-  //  	 */
-  //  	void visit(Node n);
-  //  }
- 
-  
-  // public void preOrderVisit(Visitor v)
-  //  {
-  //  	preOrderVisit(root, v);
-  //  }
- 
- 
-  // private static void preOrderVisit(Node n, Visitor v)
-  //  {
-  //  	if (n == null) return;
-  //  	v.visit(n);
-  //  	preOrderVisit(n.left, v);
-  //  	preOrderVisit(n.right, v);
-  //  }
+    public static void printAll(RedBlackTree t, Visitor v) {
+       t.preOrderVisit(v);
+       System.out.println("\n\n");
+       t.inOrderVisit(v);
+       System.out.println("\n\n");
+       t.postOrderVisit(v);
+    }
     
     
  }

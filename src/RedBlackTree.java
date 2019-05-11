@@ -1,11 +1,14 @@
 public class RedBlackTree<Key extends Comparable<Key>> {	
 		private Node<Key> root;
 		
+		
 		public RedBlackTree(Key data) {
 			root = new Node<>(data, true);
 		}
 		
-
+		public Node<Key> getRoot(){
+			return root;
+		}
 		
 		 public boolean isLeaf(Node<Key> n){
 			  if (n.equals(root) && n.leftChild == null && n.rightChild == null) return true;
@@ -92,6 +95,21 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		
 		public void rotateLeft(Node<Key> n){
 			//
+			Node<Key> p = n.parent;
+			Node<Key> c = n.rightChild;
+			
+			System.out.println("hi");
+			if(n.parent != null) {
+				c.parent = n.parent;
+			} else {
+				System.out.println("hi");
+				c.parent = null;
+				System.out.println("hi");
+			}
+			n.parent = c;
+			n.rightChild = c.leftChild;
+			c.leftChild = n.rightChild;
+			
 		}
 		
 		public void rotateRight(Node<Key> n){
@@ -149,6 +167,23 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		  	inOrderVisit(n.leftChild, v);
 		  	v.visit(n);
 		  	inOrderVisit(n.rightChild, v);
+		}	
+
+		
+		public void postOrderVisit(Visitor<Key> v) {
+			
+		   	inOrderVisit(root, v);
+
+		}
+		 
+		private void postOrderVisit(Node<Key> n, Visitor<Key> v) {
+
+		  	if (n == null) {
+		  		return;
+		  	}
+		  	inOrderVisit(n.leftChild, v);
+		  	inOrderVisit(n.rightChild, v);
+		  	v.visit(n);
 		}	
 		
 	}

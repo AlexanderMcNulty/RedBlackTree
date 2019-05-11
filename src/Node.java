@@ -13,12 +13,14 @@ public class Node<Key extends Comparable<Key>> { //changed to static
 		  isRoot = val; 
 		  leftChild = null;
 		  rightChild = null;
+		  parent = null;
 	  }
 	  public Node(Key data){
 		  this.key = data;
 		  isRoot = false; 
 		  leftChild = null;
 		  rightChild = null;
+		  parent = null;
 	  }		
 	  
 	  public int compareTo(Node<Key> n){ 	//this < that  <0
