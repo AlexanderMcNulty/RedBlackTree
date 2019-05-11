@@ -50,6 +50,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 					System.out.println(data.compareTo(cur.key));
 					if(cur.leftChild == null) {
 						cur.leftChild = new Node<>(data);
+						cur.leftChild.parent = cur;
 						System.out.println("\n\n");
 						return;
 					} else {
@@ -59,6 +60,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 					System.out.println(data.compareTo(cur.key));
 					if(cur.rightChild == null) {
 						cur.rightChild = new Node<>(data);
+						cur.rightChild.parent = cur;
 						System.out.println("\n\n");
 						return;
 					} else {
@@ -104,16 +106,45 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			}
 		}
 	 	
+		public void clearCase1(Node<Key> node) {
+			//Node<Key> uncle = node.parent.parent.
+			//if(node.color == "RED") {
+			//	x
+			//}
+		}
 		
 		public Node<Key> getSibling(Node<Key> n){
-			return null;  
-			//
+			Node<Key> r = null;
+			Node<Key> l = null;
+			
+			
+			if(n.parent == null) {
+				return null;
+			}
+			if(n.parent.rightChild != null) {
+				r = n.parent.rightChild;
+			}
+			if(n.parent.leftChild != null) {
+				l = n.parent.leftChild;
+			}
+			
+			if(n.equals(r)) {
+				return l;
+			} else {
+				return r;
+			}
 		}
 		
 		
 		public Node<Key> getAunt(Node<Key> n){
-			return null;
-			//
+			Node<Key> p = getSibling(n.parent);
+			Node<Key> r = p.parent.rightChild;
+			Node<Key> l = p.parent.leftChild;
+			if(n.equals(r)) {
+				return l;
+			} else {
+				return r;
+			}
 		}
 		
 		public Node<Key> getGrandparent(Node<Key> n){

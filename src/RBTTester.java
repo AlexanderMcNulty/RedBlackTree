@@ -135,7 +135,13 @@ public class RBTTester {
 	       printAll(t,v);
 	       
 	       String q = enterSearch();
-	       System.out.println("Wowwww!! " + t.lookup(q));
+	       System.out.println("Wowwww!! " + t.lookup(q)+"\n\n");
+	       System.out.println("Wowwww!! " + t.getSibling(t.lookup(q))+"\n\n");
+	       
+	       //sq = enterSearch();
+	       //System.out.println("amazing!! " + t.getSibling(q)+"\n\n");
+	       
+	       
 	       
 	       return v.result;
 	 }
