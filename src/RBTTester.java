@@ -80,7 +80,8 @@ public class RBTTester {
         rbt.insert("C");
         rbt.insert("D");
         rbt.insert("E");
-        rbt.insert("F");
+        rbt.insert("FE");
+        rbt.insert("FA");
         rbt.insert("G");
         rbt.insert("H");
         rbt.insert("I");
@@ -122,7 +123,10 @@ public class RBTTester {
     	       };
     	       MyVisitor v = new MyVisitor();
     	       printAll(t,v);
-    	       System.out.println("hi");
+    	       System.out.println("hi\n\n");
+    	       t.rotateLeft(t.getRoot());
+    	       printAll(t,v);
+    	       System.out.println("bad");
     	       t.rotateLeft(t.getRoot());
     	       printAll(t,v);
     	       System.out.println("bad");
