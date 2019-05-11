@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class RedBlackTree<Key extends Comparable<Key>> {	
 		private Node<Key> root;
 		
@@ -72,9 +75,33 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		
 		
 		
-		public Node<Key> lookup(Key k){
-			return null; 
-			//fill
+		public Node<Key> lookup(Key data){
+			System.out.println(data + " dog");
+			Node<Key> cur = root;
+
+			while(true) {
+				if(data.compareTo(cur.key) < 0) {
+					System.out.println(data.compareTo(cur.key));
+					if(cur.leftChild == null) {
+						return null;
+					} else if(cur.leftChild.key.equals(data)) {
+						System.out.println("\n\n");
+						return cur.leftChild;
+					} else {
+						cur = cur.leftChild;
+					}
+				} else {
+					System.out.println(data.compareTo(cur.key));
+					if(cur.rightChild == null) {
+						return null;
+					} else if(cur.rightChild.key.equals(data)) {
+						System.out.println("\n\n");
+						return cur.rightChild;
+					} else {
+						cur = cur.rightChild;
+					}
+				}
+			}
 		}
 	 	
 		

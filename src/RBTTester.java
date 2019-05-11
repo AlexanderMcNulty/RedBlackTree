@@ -1,6 +1,9 @@
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import org.junit.Test;
 
 
@@ -110,33 +113,33 @@ public class RBTTester {
 
     // color, parents key, this key
     public static String makeStringDetails(RedBlackTree t) {
-    	{
-    	       class MyVisitor implements Visitor<String> {
-    	          String result = "";
-    	          public void visit(Node n)
-    	          {
-    	        	  if(!(n.key).equals("")) {
-    	        		  System.out.println("Key: "+n.key);
-    	        		  //result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
-    	        	  }
-    	          }
-    	       };
-    	       MyVisitor v = new MyVisitor();
-    	       printAll(t,v);
-    	       System.out.println("hi\n\n");
-    	       t.rotateLeft(t.getRoot());
-    	       printAll(t,v);
-    	       System.out.println("bad\n\n");
-    	       t.rotateLeft(t.getRoot());
-    	       printAll(t,v);
-    	       System.out.println("bad\n\n");
-    	       t.rotateRight(t.getRoot());
-    	       t.rotateRight(t.getRoot());
-    	       printAll(t,v);
-    	       System.out.println("bad");
-    	       return v.result;
-    	 }
-    }
+    	
+	       class MyVisitor implements Visitor<String> {
+	          String result = "";
+	          public void visit(Node n)
+	          {
+	        	  if(!(n.key).equals("")) {
+	        		  System.out.println("Key: "+n.key);
+	        		  //result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
+	        	  }
+	          }
+	       };
+	       MyVisitor v = new MyVisitor();
+	       printAll(t,v);
+	       t.rotateLeft(t.getRoot());
+	       printAll(t,v);
+	       t.rotateLeft(t.getRoot());
+	       printAll(t,v);
+	       t.rotateRight(t.getRoot());
+	       t.rotateRight(t.getRoot());
+	       printAll(t,v);
+	       
+	       String q = enterSearch();
+	       System.out.println("Wowwww!! " + t.lookup(q));
+	       
+	       return v.result;
+	 }
+
     
     public static void printAll(RedBlackTree t, Visitor v) {
        t.preOrderVisit(v);
@@ -144,8 +147,20 @@ public class RBTTester {
        t.inOrderVisit(v);
        System.out.println("\n\n");
        t.postOrderVisit(v);
+       System.out.println("bad\n\n");
     }
     
-    
+    public static String enterSearch() {
+		try {
+			BufferedReader reader =
+                   new BufferedReader(new InputStreamReader(System.in));
+			String name = reader.readLine();
+			System.out.println(name);
+			return name;
+		} catch(Exception e) {
+			System.out.println(e);
+			return null;
+		}
+    }
  }
   
