@@ -78,46 +78,53 @@ public class RBTTester {
 	@Test
 	public void manualTest() {
 		RedBlackTree<String> rbt = new RedBlackTree<>("BB");
+		
 		rbt.insert("B");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! B\n\n");
+
+        rbt.insert("A");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! 1A\n\n");
+
+        rbt.insert("C");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! C\n\n");
+
+        rbt.insert("D");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! D\n\n");
+
+        rbt.insert("E");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! E\n\n");        
+
+        rbt.insert("FE");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! FE\n\n");
+
+        rbt.insert("FA");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! FA\n\n");
+
+        rbt.insert("G");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! G\n\n");
+
+        rbt.insert("H");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! H\n\n");
+
+        rbt.insert("I");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! I\n\n");
+
+        rbt.insert("J");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! J\n\n");
 
 
         String q = enterSearch(); 
-        System.out.println("lookup!! " + rbt.lookup(q)+"\n\n");
-        System.out.println("sibling!! " + rbt.getSibling(rbt.lookup(q))+"\n\n");
-        System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");
-		
-        makeStringDetails(rbt);
-        System.out.println("\n\nYO! 1\n\n");
-		rbt.insert("A");
-
-
-        q = enterSearch(); 
-        System.out.println("lookup!! " + rbt.lookup(q)+"\n\n");
-        System.out.println("sibling!! " + rbt.getSibling(rbt.lookup(q))+"\n\n");
-        System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");
-		
-        makeStringDetails(rbt);
-        System.out.println("\n\nYO! 1\n\n");
-        rbt.insert("C");
-        makeStringDetails(rbt);
-        System.out.println("\n\nYO! 1\n\n");
-        rbt.insert("D");
-        rbt.insert("E");
-        makeStringDetails(rbt);
-        System.out.println("\n\nYO! 2\n\n");        
-        rbt.insert("FE");
-        rbt.insert("FA");
-        rbt.insert("G");
-        makeStringDetails(rbt);
-        System.out.println("\n\nYO! 3\n\n");
-
-        rbt.insert("H");
-        rbt.insert("I");
-        rbt.insert("J");
-        makeStringDetails(rbt);
-
-
-        q = enterSearch(); 
         System.out.println("lookup!! " + rbt.lookup(q)+"\n\n");
         System.out.println("sibling!! " + rbt.getSibling(rbt.lookup(q))+"\n\n");
         System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");

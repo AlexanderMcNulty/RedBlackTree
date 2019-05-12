@@ -70,6 +70,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 					}
 				}
 			}
+			System.out.println(cur.parent);
 			this.fixTree(cur);
 		}
 			
@@ -80,59 +81,67 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		
 		
 		public void fixTree(Node<Key> current) {
-			clearCase1(current);
-			clearCase2(current);
-			clearCase3(current);
+			System.out.println(clearCase1(current));
+			System.out.println(clearCase2(current));
+			System.out.println(clearCase3(current));
 		}
 		
-		public void clearCase1(Node<Key> node) {
+		public boolean clearCase1(Node<Key> node) {
 			Node<Key> a = getAunt(node);
 			Node<Key> p = node.parent;
 			Node<Key> g = getGrandparent(node);
-			if(g == null || a == null || p == null) {
+			if(g == null || a == null || p == null ||g == root) {
 				//case 1 invalid
-				return;
+				return false;
 			} else if (a.color == 0 && p.color == 0 && g.color == 1) {
 				a.color = 1;
 				p.color = 1;
 				g.color = 0;
+				return true;
 			}
+			return false;
+
 		}
-		public void clearCase2(Node<Key> node) {
+		public boolean clearCase2(Node<Key> node) {
 			if(getAunt(node) == null){
-				return;
+				return false;
 			}
 			Node<Key> p = node.parent;
 			Node<Key> g = getGrandparent(node);
 			if(g == null || p == null) {
-				return;
-			} else if (p.color == 0 && g.color == 1) {
+				return false;
+			} else if (node.color == 0 && p.color == 0 && g.color == 1) {
 				if(p.leftChild == node && g.rightChild == p) {
 					this.rotateRight(p);
+					return true;
 				} else if(p.rightChild == node && g.leftChild == p) {
-					this.rotateLeft(p); 
+					this.rotateLeft(p);
+					return true;
 				}
 			}
-			return;
+			return false;
 		}
-		public void clearCase3(Node<Key> node) {
+		public boolean clearCase3(Node<Key> node) {
 			Node<Key> p = node.parent;
 			Node<Key> g = getGrandparent(node);
 			if(p == null || g == null) {
-				return;
+				return false;
 			} else if(node.color == 0 && p.color == 0 && g.color == 1) {
 				if(node == p.rightChild && p == g.rightChild) {
 					this.rotateLeft(g);
 					p.color = 1;
 					g.color = 0;
 					node.color = 0;
+					return true;
 				} else if(node == p.leftChild && p == g.leftChild) {
 					this.rotateRight(g);
 					p.color = 1;
 					g.color = 0;
 					node.color = 0;
+					return true;
 				}
 			}
+			return false;
 		}
 			
 		
@@ -191,6 +200,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			c.leftChild = n;
 			if(n.equals(root)) {
 				root = c;
+				root.color = 1;
 			}
 			
 		}
@@ -198,14 +208,21 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		public void rotateRight(Node<Key> n){
 			Node<Key> c = n.leftChild;
 
+			
+			if(n.parent != null && isLeftChild(n.parent, n)) {
+				n.parent.leftChild = c;
+			}  else if(n.parent != null) {
+				n.parent.rightChild = c;
+			}
+			
 			c.parent = n.parent;	
 			n.parent = c;
 			//Node<Key> temp = n.leftChild;
-			n.leftChild = c.rightChild;
-			
+			n.leftChild = c.rightChild;			
 			c.rightChild = n;
 			if(n.equals(root)) {
 				root = c;
+				root.color = 1;
 			}
 
 		}
