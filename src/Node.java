@@ -14,6 +14,7 @@ public class Node<Key extends Comparable<Key>> { //changed to static
 		  leftChild = null;
 		  rightChild = null;
 		  parent = null;
+		  color = 1;
 	  }
 	  public Node(Key data){
 		  this.key = data;
@@ -21,6 +22,7 @@ public class Node<Key extends Comparable<Key>> { //changed to static
 		  leftChild = null;
 		  rightChild = null;
 		  parent = null;
+		  color = 0;
 	  }		
 	  
 	  public int compareTo(Node<Key> n){ 	//this < that  <0

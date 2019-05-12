@@ -79,18 +79,49 @@ public class RBTTester {
 	public void manualTest() {
 		RedBlackTree<String> rbt = new RedBlackTree<>("BB");
 		rbt.insert("B");
+
+
+        String q = enterSearch(); 
+        System.out.println("lookup!! " + rbt.lookup(q)+"\n\n");
+        System.out.println("sibling!! " + rbt.getSibling(rbt.lookup(q))+"\n\n");
+        System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");
+		
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! 1\n\n");
 		rbt.insert("A");
+
+
+        q = enterSearch(); 
+        System.out.println("lookup!! " + rbt.lookup(q)+"\n\n");
+        System.out.println("sibling!! " + rbt.getSibling(rbt.lookup(q))+"\n\n");
+        System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");
+		
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! 1\n\n");
         rbt.insert("C");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! 1\n\n");
         rbt.insert("D");
         rbt.insert("E");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! 2\n\n");        
         rbt.insert("FE");
         rbt.insert("FA");
         rbt.insert("G");
+        makeStringDetails(rbt);
+        System.out.println("\n\nYO! 3\n\n");
+
         rbt.insert("H");
         rbt.insert("I");
         rbt.insert("J");
         makeStringDetails(rbt);
 
+
+        q = enterSearch(); 
+        System.out.println("lookup!! " + rbt.lookup(q)+"\n\n");
+        System.out.println("sibling!! " + rbt.getSibling(rbt.lookup(q))+"\n\n");
+        System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");
+        
 	}
 	
 	
@@ -103,7 +134,7 @@ public class RBTTester {
           public void visit(Node n)
           {
              result = result + n.key;
-             System.out.println(n.key);
+             System.out.println(n.key +" "+ n.color +" "+ n.parent +" "+ n.rightChild +" "+ n.leftChild);
           }
        };
        MyVisitor v = new MyVisitor();
@@ -111,49 +142,46 @@ public class RBTTester {
        return v.result;
     }
 
+    
+    
+    public static class MyVisitor implements Visitor<String> {
+        String result = "";
+        public void visit(Node n)
+        {
+      	  if(!(n.key).equals("")) {
+      		  if(n.parent == null) {
+      			  result = result +"Key:"+n.key+"    Color: "+n.color + "\n";
+      		  } else {
+      			  result = result + "Key:" +n.key+"     Parent: "+n.parent.key +" Color: "+n.color + "\n";
+      		  }
+      		  
+      	  }
+        }
+        public String collectResult() {
+      	  String tmp = result;
+      	  result = "";
+      	  return tmp;
+        }
+     };
+    
     // color, parents key, this key
     public static String makeStringDetails(RedBlackTree t) {
     	
-	       class MyVisitor implements Visitor<String> {
-	          String result = "";
-	          public void visit(Node n)
-	          {
-	        	  if(!(n.key).equals("")) {
-	        		  System.out.println("Key: "+n.key);
-	        		  //result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
-	        	  }
-	          }
-	       };
+
 	       MyVisitor v = new MyVisitor();
 	       printAll(t,v);
-	       t.rotateLeft(t.getRoot());
-	       printAll(t,v);
-	       t.rotateLeft(t.getRoot());
-	       printAll(t,v);
-	       t.rotateRight(t.getRoot());
-	       t.rotateRight(t.getRoot());
-	       printAll(t,v);
-	       
-	       String q = enterSearch();
-	       System.out.println("Wowwww!! " + t.lookup(q)+"\n\n");
-	       System.out.println("Wowwww!! " + t.getSibling(t.lookup(q))+"\n\n");
-	       
-	       //sq = enterSearch();
-	       //System.out.println("amazing!! " + t.getSibling(q)+"\n\n");
-	       
-	       
 	       
 	       return v.result;
 	 }
 
     
-    public static void printAll(RedBlackTree t, Visitor v) {
+    public static void printAll(RedBlackTree t, MyVisitor v) {
        t.preOrderVisit(v);
-       System.out.println("\n\n");
+       System.out.println(v.collectResult()+"\n\n");
        t.inOrderVisit(v);
-       System.out.println("\n\n");
+       System.out.println(v.collectResult()+"\n\n");
        t.postOrderVisit(v);
-       System.out.println("bad\n\n");
+       System.out.println(v.collectResult()+"bad\n\n");
     }
     
     public static String enterSearch() {

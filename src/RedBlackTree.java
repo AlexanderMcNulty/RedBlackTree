@@ -51,8 +51,9 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 					if(cur.leftChild == null) {
 						cur.leftChild = new Node<>(data);
 						cur.leftChild.parent = cur;
+						cur = cur.leftChild;
 						System.out.println("\n\n");
-						return;
+						break;
 					} else {
 						cur = cur.leftChild;
 					}
@@ -61,13 +62,15 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 					if(cur.rightChild == null) {
 						cur.rightChild = new Node<>(data);
 						cur.rightChild.parent = cur;
+						cur = cur.rightChild;
 						System.out.println("\n\n");
-						return;
+						break;
 					} else {
 						cur = cur.rightChild;
 					}
 				}
 			}
+			this.fixTree(cur);
 		}
 			
 
@@ -75,6 +78,138 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			addNode(data);	
 		}
 		
+		
+		public void fixTree(Node<Key> current) {
+			clearCase1(current);
+			clearCase2(current);
+			clearCase3(current);
+		}
+		
+		public void clearCase1(Node<Key> node) {
+			Node<Key> a = getAunt(node);
+			Node<Key> p = node.parent;
+			Node<Key> g = getGrandparent(node);
+			if(g == null || a == null || p == null) {
+				//case 1 invalid
+				return;
+			} else if (a.color == 0 && p.color == 0 && g.color == 1) {
+				a.color = 1;
+				p.color = 1;
+				g.color = 0;
+			}
+		}
+		public void clearCase2(Node<Key> node) {
+			if(getAunt(node) == null){
+				return;
+			}
+			Node<Key> p = node.parent;
+			Node<Key> g = getGrandparent(node);
+			if(g == null || p == null) {
+				return;
+			} else if (p.color == 0 && g.color == 1) {
+				if(p.leftChild == node && g.rightChild == p) {
+					this.rotateRight(p);
+				} else if(p.rightChild == node && g.leftChild == p) {
+					this.rotateLeft(p); 
+				}
+			}
+			return;
+		}
+		public void clearCase3(Node<Key> node) {
+			Node<Key> p = node.parent;
+			Node<Key> g = getGrandparent(node);
+			if(p == null || g == null) {
+				return;
+			} else if(node.color == 0 && p.color == 0 && g.color == 1) {
+				if(node == p.rightChild && p == g.rightChild) {
+					this.rotateLeft(g);
+					p.color = 1;
+					g.color = 0;
+					node.color = 0;
+				} else if(node == p.leftChild && p == g.leftChild) {
+					this.rotateRight(g);
+					p.color = 1;
+					g.color = 0;
+					node.color = 0;
+				}
+			}
+		}
+			
+		
+		public Node<Key> getSibling(Node<Key> n){
+			Node<Key> r = null;
+			Node<Key> l = null;
+			
+			
+			if(n == null || n.parent == null ||  (n.parent.rightChild == null &&  n.parent.leftChild == null)) {
+				return null;
+			}
+			
+			if(n.parent != null && n.parent.rightChild != null) {
+				r = n.parent.rightChild;
+			}
+			if(n.parent != null && n.parent.leftChild != null) {
+				l = n.parent.leftChild;
+			}
+			
+			if(n.equals(r)) {
+				return l;
+			} else {
+				return r;
+			}
+		}
+		
+		
+		public Node<Key> getAunt(Node<Key> n){
+			if(n == null) {
+				return null;
+			}
+			Node<Key> p = getSibling(n.parent);
+			if(p == null) {
+				return null;
+			}
+			Node<Key> r = p.parent.rightChild;
+			Node<Key> l = p.parent.leftChild;
+			if(n.equals(r)) {
+				return l;
+			} else {
+				return r;
+			}
+		}
+		
+		public Node<Key> getGrandparent(Node<Key> n){
+			return n.parent.parent;
+		}
+		
+		public void rotateLeft(Node<Key> n){
+			
+			Node<Key> c = n.rightChild;
+			
+			c.parent = n.parent;	
+			n.parent = c;
+			n.rightChild = c.leftChild;
+			c.leftChild = n;
+			if(n.equals(root)) {
+				root = c;
+			}
+			
+		}
+		
+		public void rotateRight(Node<Key> n){
+			Node<Key> c = n.leftChild;
+
+			c.parent = n.parent;	
+			n.parent = c;
+			//Node<Key> temp = n.leftChild;
+			n.leftChild = c.rightChild;
+			
+			c.rightChild = n;
+			if(n.equals(root)) {
+				root = c;
+			}
+
+		}
+
 		
 		
 		public Node<Key> lookup(Key data){
@@ -104,84 +239,6 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 					}
 				}
 			}
-		}
-	 	
-		public void clearCase1(Node<Key> node) {
-			//Node<Key> uncle = node.parent.parent.
-			//if(node.color == "RED") {
-			//	x
-			//}
-		}
-		
-		public Node<Key> getSibling(Node<Key> n){
-			Node<Key> r = null;
-			Node<Key> l = null;
-			
-			
-			if(n.parent == null) {
-				return null;
-			}
-			if(n.parent.rightChild != null) {
-				r = n.parent.rightChild;
-			}
-			if(n.parent.leftChild != null) {
-				l = n.parent.leftChild;
-			}
-			
-			if(n.equals(r)) {
-				return l;
-			} else {
-				return r;
-			}
-		}
-		
-		
-		public Node<Key> getAunt(Node<Key> n){
-			Node<Key> p = getSibling(n.parent);
-			Node<Key> r = p.parent.rightChild;
-			Node<Key> l = p.parent.leftChild;
-			if(n.equals(r)) {
-				return l;
-			} else {
-				return r;
-			}
-		}
-		
-		public Node<Key> getGrandparent(Node<Key> n){
-			return n.parent.parent;
-		}
-		
-		public void rotateLeft(Node<Key> n){
-			
-			Node<Key> c = n.rightChild;
-
-			c.parent = n.parent;	
-			n.parent = c;
-			n.rightChild = c.leftChild;
-			c.leftChild = n;
-			if(n.equals(root)) {
-				root = c;
-			}
-			
-		}
-		
-		public void rotateRight(Node<Key> n){
-			Node<Key> c = n.leftChild;
-
-			c.parent = n.parent;	
-			n.parent = c;
-			n.leftChild = c.rightChild;
-			c.rightChild = n;
-			if(n.equals(root)) {
-				root = c;
-			}
-
-		}
-
-		
-		
-		public void fixTree(Node<Key> current) {
-			//
 		}
 		
 		public boolean isEmpty(Node<Key> n){
