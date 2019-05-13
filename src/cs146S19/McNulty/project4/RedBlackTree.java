@@ -1,3 +1,4 @@
+package cs146S19.McNulty.project4;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;

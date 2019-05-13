@@ -1,3 +1,4 @@
+package cs146S19.McNulty.project4;
 
 public class Rectangle implements Comparable<Rectangle> {
 	int width;
@@ -7,7 +8,12 @@ public class Rectangle implements Comparable<Rectangle> {
 		width=  w;
 		height = h; 
 	}
-
+	
+	@Override
+	public String toString() {
+		return String.valueOf(width*height);
+	}
+	
 	@Override
 	public int compareTo(Rectangle rect) {
 		if(width*height > rect.width * rect.height) {

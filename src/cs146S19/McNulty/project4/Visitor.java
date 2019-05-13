@@ -1,3 +1,4 @@
+package cs146S19.McNulty.project4;
 public interface Visitor<Key extends Comparable<Key>> {
 	/**
 	This method is called at each node.

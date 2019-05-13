@@ -1,3 +1,4 @@
+package cs146S19.McNulty.project4;
 public class Node<Key extends Comparable<Key>> { //changed to static 
 	
 	  Key key;  		  
