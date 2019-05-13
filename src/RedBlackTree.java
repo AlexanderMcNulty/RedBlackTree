@@ -1,17 +1,20 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class RedBlackTree<Key extends Comparable<Key>> {	
 		private Node<Key> root;
-		
+		public ArrayList<String> keys;
 		private Key type;
 		
 		public RedBlackTree(Key data) {
 			root = new Node<>(data, true);
+			keys = new ArrayList<String>();
 		}
 		public RedBlackTree(Key type, Key hi) {
 			this.type = type;
 			root = null;
+			keys = new ArrayList<String>();
 		}
 		
 		public Node<Key> getRoot(){
@@ -59,30 +62,25 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			
 			while(true) {
 				if(data.compareTo(cur.key) < 0) {
-					System.out.println(data.compareTo(cur.key));
 					if(cur.leftChild == null) {
 						cur.leftChild = new Node<>(data);
 						cur.leftChild.parent = cur;
 						cur = cur.leftChild;
-						System.out.println("sup\n\n");
 						break;
 					} else {
 						cur = cur.leftChild;
 					}
 				} else {
-					System.out.println(data.compareTo(cur.key));
 					if(cur.rightChild == null) {
 						cur.rightChild = new Node<>(data);
 						cur.rightChild.parent = cur;
 						cur = cur.rightChild;
-						System.out.println("sup\n\n");
 						break;
 					} else {
 						cur = cur.rightChild;
 					}
 				}
 			}
-			System.out.println(cur.parent);
 			this.fixTree(cur);
 		}
 			
@@ -106,15 +104,11 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 				Node<Key> a = getAunt(cur);
 				if((a == null || a.color == 1) && cur.parent != null && cur.parent.parent != null) {
 					caseABCD(cur);
-//					System.out.println(clearCase1(cur));
-//					System.out.println(clearCase2(cur));
-//					System.out.println(clearCase3(cur));
 				} else if (a != null && a.color == 0 && cur.parent != null && cur.parent.parent != null /*&& cur.parent.parent != root*/) {
 					a.color = 1;
 					cur.parent.color = 1;
 					cur.parent.parent.color = 0;
 					fixTree(cur.parent.parent);
-					System.out.println("good things happen");
 				}
 			}
 		}
@@ -303,26 +297,26 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		
 		
 		public Node<Key> lookup(Key data){
-			System.out.println(data + " dog");
+
 			Node<Key> cur = root;
 
+			if(cur == null || data == null) {
+				return null;
+			}
+			
 			while(true) {
 				if(data.compareTo(cur.key) < 0) {
-					System.out.println(data.compareTo(cur.key));
 					if(cur.leftChild == null) {
 						return null;
 					} else if(cur.leftChild.key.equals(data)) {
-						System.out.println("\n\n");
 						return cur.leftChild;
 					} else {
 						cur = cur.leftChild;
 					}
 				} else {
-					System.out.println(data.compareTo(cur.key));
 					if(cur.rightChild == null) {
 						return null;
 					} else if(cur.rightChild.key.equals(data)) {
-						System.out.println("\n\n");
 						return cur.rightChild;
 					} else {
 						cur = cur.rightChild;
@@ -352,11 +346,29 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 
 		}
 		 
+		
+		public void getList(Node<Key> cur) {
+			if(cur == null) {
+				return;
+			} else {
+				keys.add(cur.key.toString());
+			}
+		  	getList(cur.leftChild);
+		  	getList(cur.rightChild);
+		}
+		public ArrayList<String> getKeys() {
+			return keys;
+		}
+		public void clear() {
+			keys = new ArrayList<String>();
+		}
+		
 		 
 		private void preOrderVisit(Node<Key> n, Visitor<Key> v) {
 
 		  	if (n == null) {
 		  		return;
+		  	} else {
 		  	}
 		  	v.visit(n);
 		  	preOrderVisit(n.leftChild, v);
