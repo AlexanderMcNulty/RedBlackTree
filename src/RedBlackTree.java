@@ -4,9 +4,14 @@ import java.io.InputStreamReader;
 public class RedBlackTree<Key extends Comparable<Key>> {	
 		private Node<Key> root;
 		
+		private Key type;
 		
 		public RedBlackTree(Key data) {
 			root = new Node<>(data, true);
+		}
+		public RedBlackTree(Key type, Key hi) {
+			this.type = type;
+			root = null;
 		}
 		
 		public Node<Key> getRoot(){
@@ -43,6 +48,13 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		
 		// place a new node in the RB tree with data the parameter and color it red. 
 		public void addNode(Key data){  	//this < that  <0.  this > that  >0
+			
+			if(root == null) {
+				root = new Node<Key>(data);
+				root.color = 1;
+				return;
+			}
+			
 			Node<Key> cur = root;
 			
 			while(true) {
@@ -52,7 +64,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 						cur.leftChild = new Node<>(data);
 						cur.leftChild.parent = cur;
 						cur = cur.leftChild;
-						System.out.println("\n\n");
+						System.out.println("sup\n\n");
 						break;
 					} else {
 						cur = cur.leftChild;
@@ -63,7 +75,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 						cur.rightChild = new Node<>(data);
 						cur.rightChild.parent = cur;
 						cur = cur.rightChild;
-						System.out.println("\n\n");
+						System.out.println("sup\n\n");
 						break;
 					} else {
 						cur = cur.rightChild;
@@ -80,18 +92,69 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 		}
 		
 		
-		public void fixTree(Node<Key> current) {
-			System.out.println(clearCase1(current));
-			System.out.println(clearCase2(current));
-			System.out.println(clearCase3(current));
+		public void fixTree() {
+			fixTree(root);
 		}
 		
+		public void fixTree(Node<Key> cur) {
+			if(cur == root) {
+				cur.color = 1;
+				return;
+			}else if(cur.parent.color == 1 && cur.color == 0) {
+				return;
+			}else if(cur.parent.color == 0) {
+				Node<Key> a = getAunt(cur);
+				if((a == null || a.color == 1) && cur.parent != null && cur.parent.parent != null) {
+					caseABCD(cur);
+//					System.out.println(clearCase1(cur));
+//					System.out.println(clearCase2(cur));
+//					System.out.println(clearCase3(cur));
+				} else if (a != null && a.color == 0 && cur.parent != null && cur.parent.parent != null /*&& cur.parent.parent != root*/) {
+					a.color = 1;
+					cur.parent.color = 1;
+					cur.parent.parent.color = 0;
+					fixTree(cur.parent.parent);
+					System.out.println("good things happen");
+				}
+			}
+		}
+		
+		public void caseABCD(Node<Key> cur) {
+			Node<Key> g = cur.parent.parent;
+			if(g == null) {
+				return;
+			}
+			if(isLeftChild(g, cur.parent) && !(isLeftChild(cur.parent, cur))) {
+				rotateLeft(cur.parent);
+				fixTree(cur.leftChild);
+			} else if (!(isLeftChild(g, cur.parent)) && (isLeftChild(cur.parent, cur))) {
+				rotateRight(cur.parent);
+				fixTree(cur.rightChild);
+			} else if (!(isLeftChild(g, cur.parent)) && !(isLeftChild(cur.parent, cur))) {
+				cur.parent.color = 1;
+				g.color = 0;
+				rotateLeft(g);
+			} else if ((isLeftChild(g, cur.parent)) && (isLeftChild(cur.parent, cur))) {
+				cur.parent.color = 1;
+				g.color = 0;
+				rotateRight(g);
+			}
+		}
+		
+		
+		/*
 		public boolean clearCase1(Node<Key> node) {
 			Node<Key> a = getAunt(node);
 			Node<Key> p = node.parent;
 			Node<Key> g = getGrandparent(node);
-			if(g == null || a == null || p == null ||g == root) {
+			if(g == null || p == null ||g == root) {
 				//case 1 invalid
+				return false;
+			} else if( p.color == 0 && g.color == 1 && a == null) {
+				p.color = 1;
+				g.color = 0;
+				return true;
+			} else  if (a == null){
 				return false;
 			} else if (a.color == 0 && p.color == 0 && g.color == 1) {
 				a.color = 1;
@@ -143,6 +206,7 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			}
 			return false;
 		}
+		*/
 			
 		
 		public Node<Key> getSibling(Node<Key> n){
@@ -174,9 +238,11 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 				return null;
 			}
 			Node<Key> p = getSibling(n.parent);
-			if(p == null) {
-				return null;
-			}
+			
+			//if(p == null) {
+				return p;
+			//}
+			/*
 			Node<Key> r = p.parent.rightChild;
 			Node<Key> l = p.parent.leftChild;
 			if(n.equals(r)) {
@@ -184,46 +250,53 @@ public class RedBlackTree<Key extends Comparable<Key>> {
 			} else {
 				return r;
 			}
+			*/
 		}
 		
 		public Node<Key> getGrandparent(Node<Key> n){
 			return n.parent.parent;
 		}
 		
-		public void rotateLeft(Node<Key> n){
+		public void rotateLeft(Node<Key> x){
 			
-			Node<Key> c = n.rightChild;
+			Node<Key> y = x.rightChild;
 			
-			c.parent = n.parent;	
-			n.parent = c;
-			n.rightChild = c.leftChild;
-			c.leftChild = n;
-			if(n.equals(root)) {
-				root = c;
-				root.color = 1;
+			x.rightChild = y.leftChild;
+			if(y.leftChild != null) {
+				y.leftChild.parent = x;
 			}
+			y.parent = x.parent;
 			
+			if(x.parent == null) {
+				root = y;
+			} else if(x == x.parent.leftChild) {
+				x.parent.leftChild = y;
+			} else {
+				x.parent.rightChild = y;
+			}
+			y.leftChild = x;
+			x.parent = y;
+
 		}
 		
-		public void rotateRight(Node<Key> n){
-			Node<Key> c = n.leftChild;
+		public void rotateRight(Node<Key> x){
+			Node<Key> y = x.leftChild;
+			
+			x.leftChild = y.rightChild;
+			if(y.rightChild != null) {
+				y.rightChild.parent = x;
+			}
+			y.parent = x.parent;
 
-			
-			if(n.parent != null && isLeftChild(n.parent, n)) {
-				n.parent.leftChild = c;
-			}  else if(n.parent != null) {
-				n.parent.rightChild = c;
+			if(x.parent == null) {
+				root = y;
+			} else if(x == x.parent.rightChild) {
+				x.parent.rightChild = y;
+			} else {
+				x.parent.leftChild = y;
 			}
-			
-			c.parent = n.parent;	
-			n.parent = c;
-			//Node<Key> temp = n.leftChild;
-			n.leftChild = c.rightChild;			
-			c.rightChild = n;
-			if(n.equals(root)) {
-				root = c;
-				root.color = 1;
-			}
+			y.rightChild = x;
+			x.parent = y;
 
 		}
 

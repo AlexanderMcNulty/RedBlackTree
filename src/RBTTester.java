@@ -10,7 +10,6 @@ import org.junit.Test;
 public class RBTTester {
 	
 	/*
-	
 	@Test
     //Test the Red Black Tree
 	public void testGeneric() {
@@ -41,22 +40,23 @@ public class RBTTester {
 		assertEquals(str, makeStringDetails(rbt));
             
     }
+    */
     
 	@Test
     //Test the Red Black Tree
 	public void testStrings() {
-		RedBlackTree<String> rbt = new RedBlackTree<>("First");
-        rbt.insert("A");
-        rbt.insert("B");
-        rbt.insert("C");
+		RedBlackTree<String> rbt = new RedBlackTree<>("First", "gi");
         rbt.insert("D");
-        rbt.insert("E");
+        rbt.insert("B");
+        rbt.insert("A");
+        rbt.insert("C");
         rbt.insert("F");
-        rbt.insert("G");
+        rbt.insert("E");
         rbt.insert("H");
+        rbt.insert("G");
         rbt.insert("I");
         rbt.insert("J");
-        System.out.println(makeString(rbt));
+        assertEquals("DBACFEHGIJ", makeString(rbt));
         System.out.println(makeStringDetails(rbt));
         assertEquals("DBACFEHGIJ", makeString(rbt));
         String str=     "Color: 1, Key:D Parent: \n"+
@@ -71,10 +71,9 @@ public class RBTTester {
                         "Color: 0, Key:J Parent: I\n";
 		assertEquals(str, makeStringDetails(rbt));
     }
-    */
     
 	
-			
+		/*	
 	@Test
 	public void manualTest() {
 		RedBlackTree<String> rbt = new RedBlackTree<>("BB");
@@ -130,18 +129,15 @@ public class RBTTester {
         System.out.println("aunt!! " + rbt.getAunt(rbt.lookup(q))+"\n\n");
         
 	}
+	*/
 	
-	
-    //add tester for spell checker
-    
     public static String makeString(RedBlackTree t)
     {
-       class MyVisitor implements Visitor<String> {
+       class MyVisitor implements Visitor {
           String result = "";
           public void visit(Node n)
           {
              result = result + n.key;
-             System.out.println(n.key +" "+ n.color +" "+ n.parent +" "+ n.rightChild +" "+ n.leftChild);
           }
        };
        MyVisitor v = new MyVisitor();
@@ -149,46 +145,35 @@ public class RBTTester {
        return v.result;
     }
 
-    
-    
-    public static class MyVisitor implements Visitor<String> {
-        String result = "";
-        public void visit(Node n)
-        {
-      	  if(!(n.key).equals("")) {
-      		  if(n.parent == null) {
-      			  result = result +"Key:"+n.key+"    Color: "+n.color + "\n";
-      		  } else {
-      			  result = result + "Key:" +n.key+"     Parent: "+n.parent.key +" Color: "+n.color + "\n";
-      		  }
-      		  
-      	  }
-        }
-        public String collectResult() {
-      	  String tmp = result;
-      	  result = "";
-      	  return tmp;
-        }
-     };
-    
-    // color, parents key, this key
     public static String makeStringDetails(RedBlackTree t) {
-    	
+    	{
+    	       class MyVisitor implements Visitor {
+    	          String result = "";
+    	          public void visit(Node n)
+    	          {
+    	        	  if(!(n.key).equals("") && n.parent!= null) {
+    	        		  result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
+    	        	  }
+    	        	  else if(!(n.key).equals("")) {
+    	        		  result = result +"Color: "+n.color+", Key:"+n.key+ " Parent: " + "\n";
+    	        	  }
+    	          }
+    	       };
+    	       MyVisitor v = new MyVisitor();
+    	       t.preOrderVisit(v);
+    	       return v.result;
+    	 }
+    }
 
-	       MyVisitor v = new MyVisitor();
-	       printAll(t,v);
-	       
-	       return v.result;
-	 }
-
+/*
     
     public static void printAll(RedBlackTree t, MyVisitor v) {
        t.preOrderVisit(v);
        System.out.println(v.collectResult()+"\n\n");
-       t.inOrderVisit(v);
-       System.out.println(v.collectResult()+"\n\n");
-       t.postOrderVisit(v);
-       System.out.println(v.collectResult()+"bad\n\n");
+     //  t.inOrderVisit(v);
+       //System.out.println(v.collectResult()+"\n\n");
+     //  t.postOrderVisit(v);
+       //System.out.println(v.collectResult()+"bad\n\n");
     }
     
     public static String enterSearch() {
@@ -203,5 +188,6 @@ public class RBTTester {
 			return null;
 		}
     }
+    */
  }
   
